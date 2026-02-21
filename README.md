@@ -1,5 +1,4 @@
-# scriptsprivate
-Scripts I wish to keep private.
+Scripts I think are cool
 
 
 
