@@ -24,7 +24,7 @@ local function encode(version, input)
         local vsrc = input
         vsrc = zlib.Deflate.Compress(vsrc)
         vsrc = base93.encode(vsrc)
-        vsrc = `000000000000000{tostring(version)}{version == 4 and " " or ""}` .. vsrc
+        vsrc = `000000000000000{tostring(version)}` .. vsrc
         return vsrc
     end
 end
