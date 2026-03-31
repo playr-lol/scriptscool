@@ -1,9 +1,12 @@
--- Rewrite of my partstojson.lua but for literally everything and with more skidding (playr-lol/scripts)
 local compress = false
+local showHidden = false
+local showDeprecated = true
 local target = workspace
 
 -- skidding from Dex Explorer (luau/Dex on github)
-local zLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/playr-lol/scripts/refs/heads/main/lib/zlib.lua"))()
+if compress then
+    local zLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/playr-lol/scripts/refs/heads/main/lib/zlib.lua"))()
+end
 local Lib = {}
 local service = setmetatable({}, {
 	__index = function(self, name)
@@ -229,6 +232,8 @@ Lib.ValueToString = function(prop, val)
         return Lib.ColorToBytes(val)
     elseif typeName == "NumberRange" then
         return val.Min .. ", " .. val.Max
+    elseif typeName == "Number" then
+        return val
     end
 
     return tostring(val)
@@ -244,7 +249,8 @@ local function getProperties(obj)
 
     for _, prop in ipairs(props) do
         local ignoreProps = Lib.IgnoreProps[obj.ClassName] or {}
-        if not ignoreProps[prop.Name] then
+	    local tags = prop.Tags
+        if (not ignoreProps[prop.Name]) and (not tags.Hidden or showHidden) and (not tags.Deprecated or showDeprecated) then
             local ok, value = pcall(function()
                 return obj[prop.Name]
             end)
