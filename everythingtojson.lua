@@ -4,9 +4,10 @@ local showDeprecated = true
 local target = workspace
 
 -- skidding from Dex Explorer (luau/Dex on github)
-local zLib
+local zLib, base93
 if compress then
     zLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/playr-lol/scripts/refs/heads/main/lib/zlib.lua"))()
+	base93 = loadstring(game:HttpGet("https://raw.githubusercontent.com/playr-lol/scripts/refs/heads/main/lib/base93.lua"))()
 end
 local Lib = {}
 local service = setmetatable({}, {
@@ -287,6 +288,7 @@ end
 local output = service.HttpService:JSONEncode(result)
 if compress then
     output = zLib.Deflate.Compress(output)
+	output = base93.encode(output)
 end
 local filename = `{target.Name} ({game.PlaceId}).txt`
 local writefile = writefile
