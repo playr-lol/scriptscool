@@ -4,8 +4,9 @@ local showDeprecated = true
 local target = workspace
 
 -- skidding from Dex Explorer (luau/Dex on github)
+local zLib
 if compress then
-    local zLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/playr-lol/scripts/refs/heads/main/lib/zlib.lua"))()
+    zLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/playr-lol/scripts/refs/heads/main/lib/zlib.lua"))()
 end
 local Lib = {}
 local service = setmetatable({}, {
